@@ -14,14 +14,27 @@ In the above example, 2 passwords are valid. The middle password, cdefg, is not;
 How many passwords are valid according to their policies?
  */
 
-import { assert, splitOnLinebreak, countBy } from "../lib/utility";
+import { assert, splitOnLinebreak, countBy, cumulativeSum } from "../lib/utility";
+import {Day} from "../types/Day";
 
 const lineRegex = /^(?<min>\d+)-(?<max>\d+)\s(?<character>.):\s(?<password>.*)$/;
 
-function generatePolicyValidator(min:number,max:number,character:string){
+/** Crate a validator for Puzzle 1 */
+function generatePolicyValidatorV1(min:number,max:number,character:string){
   return (password:string)=>{
     const charCount = password.split('').filter(x=>x==character).length;
     return charCount >= min && charCount <= max;
+  };
+}
+
+/** Crate a validator for Puzzle 2 */
+function generatePolicyValidatorV2(positions:[number,number],character:string){
+  return (password:string)=>{
+    const positionMatchesCharacter = (pos:number)=>{
+      return pos <= password.length ? password[pos-1] == character : false;
+    };
+    const matches = cumulativeSum(positions.map(pos=>Number(positionMatchesCharacter(pos))));
+    return matches == 1;
   };
 }
 
@@ -32,14 +45,15 @@ function parseLine (line:string){
   const max = Number(match.groups!.max);
   const character = match.groups!.character;
   const password = match.groups!.password;
-  const validator = generatePolicyValidator(min,max,character);
+  const validator = generatePolicyValidatorV1(min,max,character);
+  const validatorV2 = generatePolicyValidatorV2([min,max],character);
   return {
     min,
     max,
     character,
-    validator,
     password,
-    isValid: validator(password)
+    isValid: validator(password),
+    isValidV2: validatorV2(password)
   };
 }
 
@@ -58,6 +72,23 @@ function puzzle1(dataset:string){
   return countBy(parseDataset(dataset),x=>x.isValid);
 }
 
-export default {
-  puzzle1
+function puzzle2(dataset:string){
+  return countBy(parseDataset(dataset),x=>x.isValidV2);
+}
+
+const day: Day = {
+  day:2,
+  sample:{
+    input: `
+      1-3 a: abcde
+      1-3 b: cdefg
+      2-9 c: ccccccccc
+    `,
+    puzzle1: 2,
+    puzzle2: 1
+  },
+  puzzle1,
+  puzzle2,
 };
+
+export default day;
