@@ -67,26 +67,22 @@ describe("Advent Submissions", function () {
       675
       1456
     `).map(x=>Number(x));
+    const expected = {puzzle1: 514579, puzzle2: 241861950};
+    const data = splitOnAllWhitespace(loadSampleFile(1,1)).map(x=>Number(x));
 
     it("Puzzle 1: can get sample result", function () {
-      expect(day1Puzzle1(sample)).to.equal(514579);
+      expect(day1Puzzle1(sample)).to.equal(expected.puzzle1);
     });
     it("Puzzle 1: can get puzzle result", function(){
-      const data = splitOnAllWhitespace(loadSampleFile(1,1)).map(x=>Number(x));
-      const result = day1Puzzle1(data);
-      expect(result).to.be.a('number');
-      console.log({day,puzzle,result});
+      console.log(day1Puzzle1(data));
     });
 
 
     it("Puzzle 2: can get sample result", function () {
-      expect(day1Puzzle2(sample)).to.equal(241861950);
+      expect(day1Puzzle2(sample)).to.equal(expected.puzzle2);
     });
     it("Puzzle 2: can get puzzle result", function(){
-      const data = splitOnAllWhitespace(loadSampleFile(1,1)).map(x=>Number(x));
-      const result = day1Puzzle2(data);
-      expect(result).to.be.a('number');
-      console.log({day,puzzle,result});
+      console.log(day1Puzzle2(data));
     });
   });
 

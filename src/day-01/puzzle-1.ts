@@ -33,4 +33,5 @@ export default function (numbers:number[],sumTo=2020){
       }
     }
   }
+  throw new Error("No match found");
 }
