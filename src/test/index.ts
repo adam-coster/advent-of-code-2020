@@ -33,13 +33,13 @@ function resetSandbox() {
   fs.copySync(samplesRoot, sandboxRoot);
 }
 
-describe("Test Suite", function () {
+describe("Advent Submissions", function () {
 
   before(function(){
     resetSandbox();
   });
 
-  describe("Test Group", function () {
+  describe("Submission 1", function () {
     it("can do something", function () {
       resetSandbox();
       expect(false).to.be.true;

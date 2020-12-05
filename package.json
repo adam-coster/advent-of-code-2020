@@ -1,33 +1,26 @@
 {
-  "name": "",
-  "description": ".",
-  "repository": "",
-  "homepage": "",
-  "author": "",
-  "keywords": [],
+  "name": "advent-of-code-2020",
+  "description": "Monorepo for Adam Coster's 2020 Advent of Code submissions.",
+  "author": "Adam Coster",
+  "keywords": [
+    "advent-of-code",
+    "advent-of-code-2020"
+  ],
   "private": true,
   "version": "0.0.1",
   "engines": {
     "node": ">=14.0.0"
   },
   "main": "./build/index.js",
-  "files": [
-    "build/lib/**/*",
-    "build/index.*",
-    "build/types/**/*"
-  ],
   "scripts": {
     "test": "mocha --inspect --require source-map-support/register --bail ./build/test/index.js",
     "build": "npx rimraf build && npx tsc",
     "preversion": "git checkout develop && npm run build && npm test",
     "version": "npx conventional-changelog -p angular -i CHANGELOG.md -s -r 0 && git add -A",
-    "postversion": "git push origin develop && git checkout main && git merge develop && git push origin main --follow-tags && npm publish && git checkout develop",
+    "postversion": "git push origin develop --follow-tags",
     "tsc-live": "npx tsc -w"
   },
   "license": "MIT",
-  "dependencies": {
-    "commander": "^6.2.0"
-  },
   "devDependencies": {
     "@types/chai": "^4.2.14",
     "@types/fs-extra": "^9.0.4",
