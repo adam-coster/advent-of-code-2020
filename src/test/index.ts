@@ -11,9 +11,18 @@
 
 import {expect} from "chai";
 import fs from "fs-extra";
+import path from 'path';
+
+import day1Puzzle1 from "../day-01/puzzle-1";
+import { splitOnAllWhitespace } from "../lib/utility";
 
 const sandboxRoot = "./sandbox";
 const samplesRoot = "./samples";
+
+function loadSampleFile(day:number,puzzle:number){
+  const paddedDay = `${day}`.padStart(2,'0');
+  return fs.readFileSync(path.join('src','test',`day-${paddedDay}-puzzle-${puzzle}-input.txt`),'utf8');
+}
 
 /**
  * Clone any files in a "./samples" folder into
@@ -39,10 +48,31 @@ describe("Advent Submissions", function () {
     resetSandbox();
   });
 
-  describe("Submission 1", function () {
-    it("can do something", function () {
-      resetSandbox();
-      expect(false).to.be.true;
+  describe("Utilities", function(){
+    it("can split strings on any whitespace", function(){
+      expect(splitOnAllWhitespace("  \nhello  \n\n \t world\n")).to.eql(['hello','world']);
+    });
+  });
+
+  describe("Day 1: Puzzle 1", function () {
+    const day    = 1;
+    const puzzle = 1;
+    it("can get sample result", function () {
+      const sample = splitOnAllWhitespace(`
+        1721
+        979
+        366
+        299
+        675
+        1456
+      `).map(x=>Number(x));
+      expect(day1Puzzle1(sample)).to.equal(514579);
+    });
+    it("can get puzzle result", function(){
+      const sample = splitOnAllWhitespace(loadSampleFile(1,1)).map(x=>Number(x));
+      const result = day1Puzzle1(sample);
+      expect(result).to.be.a('number');
+      console.log({day,puzzle,result});
     });
   });
 
