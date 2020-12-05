@@ -1,6 +1,4 @@
-/**
-
- */
+/** @see https://adventofcode.com/2020/day/? */
 
 import { assert, splitOnLinebreak, countBy, cumulativeSum } from "../lib/utility";
 import {Day} from "../types/Day";
