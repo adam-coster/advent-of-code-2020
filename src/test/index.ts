@@ -12,9 +12,10 @@
 import {expect} from "chai";
 import fs from "fs-extra";
 import path from 'path';
+import { splitOnAllWhitespace } from "../lib/utility";
 
 import day1Puzzle1 from "../day-01/puzzle-1";
-import { splitOnAllWhitespace } from "../lib/utility";
+import day1Puzzle2 from "../day-01/puzzle-2";
 
 const sandboxRoot = "./sandbox";
 const samplesRoot = "./samples";
@@ -54,23 +55,36 @@ describe("Advent Submissions", function () {
     });
   });
 
-  describe("Day 1: Puzzle 1", function () {
+  describe("Day 1", function () {
+
     const day    = 1;
     const puzzle = 1;
-    it("can get sample result", function () {
-      const sample = splitOnAllWhitespace(`
-        1721
-        979
-        366
-        299
-        675
-        1456
-      `).map(x=>Number(x));
+    const sample = splitOnAllWhitespace(`
+      1721
+      979
+      366
+      299
+      675
+      1456
+    `).map(x=>Number(x));
+
+    it("Puzzle 1: can get sample result", function () {
       expect(day1Puzzle1(sample)).to.equal(514579);
     });
-    it("can get puzzle result", function(){
-      const sample = splitOnAllWhitespace(loadSampleFile(1,1)).map(x=>Number(x));
-      const result = day1Puzzle1(sample);
+    it("Puzzle 1: can get puzzle result", function(){
+      const data = splitOnAllWhitespace(loadSampleFile(1,1)).map(x=>Number(x));
+      const result = day1Puzzle1(data);
+      expect(result).to.be.a('number');
+      console.log({day,puzzle,result});
+    });
+
+
+    it("Puzzle 2: can get sample result", function () {
+      expect(day1Puzzle2(sample)).to.equal(241861950);
+    });
+    it("Puzzle 2: can get puzzle result", function(){
+      const data = splitOnAllWhitespace(loadSampleFile(1,1)).map(x=>Number(x));
+      const result = day1Puzzle2(data);
       expect(result).to.be.a('number');
       console.log({day,puzzle,result});
     });

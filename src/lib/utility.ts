@@ -7,3 +7,11 @@ export function splitOnAllWhitespace(string:string,options?:{includeFalsey:boole
   return string.split(/\s+/mg)
     .filter(x=>x || options?.includeFalsey);
 }
+
+export function cumulativeSum(numbers:number[]){
+  return numbers.reduce((total,current)=>total+current,0);
+}
+
+export function cumulativeProd(numbers:number[]){
+  return numbers.reduce((total,current)=>total*current,1);
+}
