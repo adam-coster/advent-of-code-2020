@@ -2,7 +2,7 @@
 
 // This puzzle is an off-by-one NIGHTMARE
 
-import { assert, splitOnLinebreak, countBy, cumulativeSum } from "../lib/utility";
+import { assert, splitOnLinebreak, countBy, cumulativeSum, cumulativeProd } from "../lib/utility";
 import {Day} from "../types/Day";
 import {undent} from "@bscotch/utility";
 
@@ -25,24 +25,45 @@ export class TreeMap {
     x = x % this.width;
     return this.map[y][x] == '#';
   }
+
+  treeCountForTraversalPattern(rightBy:number,downBy:number){
+    let [x,y] = [0,0];
+    let treeTally = 0;
+    while(y<this.height){
+      treeTally += Number(this.isTree(x,y));
+      x += rightBy;
+      y += downBy;
+    }
+    return treeTally;
+  }
 }
 
 
 /** Tally the number of VALID passwords */
 function puzzle1(dataset:string){
   const map = new TreeMap(dataset);
-  let [x,y] = [0,0];
-  let treeTally = 0;
-  while(y<map.height){
-    treeTally += Number(map.isTree(x,y));
-    x += 3;
-    y += 1;
-  }
-  return treeTally;
+  return map.treeCountForTraversalPattern(3,1);
 }
 
 function puzzle2(dataset:string){
-  return Infinity;
+  const map = new TreeMap(dataset);
+  const patterns = [
+    [1,1],
+    [3,1],
+    [5,1],
+    [7,1],
+    [1,2],
+  ] as const;
+  const counts = patterns
+    .map(pattern=>map.treeCountForTraversalPattern(pattern[0],pattern[1]));
+  return cumulativeProd(counts);
+/**
+ * Right 1, down 1.
+Right 3, down 1. (This is the slope you already checked.)
+Right 5, down 1.
+Right 7, down 1.
+Right 1, down 2.
+ */
 }
 
 const day: Day = {
@@ -61,7 +82,7 @@ const day: Day = {
       #...##....#
       .#..#...#.#`,
     puzzle1: 7,
-    puzzle2: Infinity
+    puzzle2: 336
   },
   puzzle1,
   puzzle2,
