@@ -57,13 +57,6 @@ function puzzle2(dataset:string){
   const counts = patterns
     .map(pattern=>map.treeCountForTraversalPattern(pattern[0],pattern[1]));
   return cumulativeProd(counts);
-/**
- * Right 1, down 1.
-Right 3, down 1. (This is the slope you already checked.)
-Right 5, down 1.
-Right 7, down 1.
-Right 1, down 2.
- */
 }
 
 const day: Day = {
