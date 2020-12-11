@@ -18,11 +18,13 @@ import { undent } from "@bscotch/utility";
 import day1 from "../days/day01";
 import day2 from "../days/day02";
 import day3, {TreeMap} from "../days/day03";
+import day4 from "../days/day04";
 
 const days = [
   day1,
   day2,
   day3,
+  day4,
 ];
 
 function loadSampleFile(day:number){
