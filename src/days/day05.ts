@@ -1,4 +1,4 @@
-/** @see https://adventofcode.com/2020/day/? */
+/** @see https://adventofcode.com/2020/day/5 */
 
 import { assert, splitOnLinebreak, countBy, cumulativeSum } from "../lib/utility";
 import {Day} from "../types/Day";
@@ -20,7 +20,7 @@ function puzzle2(dataset:string){
 }
 
 const day: Day = {
-  day: Infinity,
+  day: 5,
   sample:{
     input: `
     

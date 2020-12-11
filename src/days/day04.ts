@@ -1,6 +1,5 @@
 /** @see https://adventofcode.com/2020/day/4 */
 
-import { assert, splitOnLinebreak, countBy, cumulativeSum } from "../lib/utility";
 import {Day} from "../types/Day";
 import {undent} from "@bscotch/utility";
 
