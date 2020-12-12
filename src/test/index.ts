@@ -23,6 +23,7 @@ import day5 from "../days/day05";
 import day6 from "../days/day06";
 import day7 from "../days/day07";
 import day8 from "../days/day08";
+import day9 from "../days/day09";
 
 const days = [
   day1,
@@ -32,7 +33,8 @@ const days = [
   day5,
   day6,
   day7,
-  day8
+  day8,
+  day9,
 ];
 
 function loadSampleFile(day:number){
@@ -77,8 +79,9 @@ describe("Advent Submissions", function () {
           const puzzleName = `puzzle${puzzle}` as const;
           const expectedSampleOutput = day.sample[puzzleName];
           if(typeof expectedSampleOutput != 'undefined'){
-            expect(day[puzzleName](day.sample.input),'sample did not pass')
+            expect(day[puzzleName](day.sample.input,true),'sample did not pass')
               .to.equal(day.sample[puzzleName]);
+            console.log(`Day ${day.day} Puzzle ${puzzle} sample passed.`);
           }
           const dataset = loadSampleFile(day.day);
           console.log(`Day ${day.day} Puzzle ${puzzle} result:`,
