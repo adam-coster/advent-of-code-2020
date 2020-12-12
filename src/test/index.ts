@@ -69,8 +69,11 @@ describe("Advent Submissions", function () {
       for(const puzzle of [1,2] as const){
         it(`Day ${day.day} Puzzle ${puzzle}`,function(){
           const puzzleName = `puzzle${puzzle}` as const;
-          expect(day[puzzleName](day.sample.input),'sample did not pass')
-            .to.equal(day.sample[puzzleName]);
+          const expectedSampleOutput = day.sample[puzzleName];
+          if(typeof expectedSampleOutput != 'undefined'){
+            expect(day[puzzleName](day.sample.input),'sample did not pass')
+              .to.equal(day.sample[puzzleName]);
+          }
           const dataset = loadSampleFile(day.day);
           console.log(`Day ${day.day} Puzzle ${puzzle} result:`,
             day[puzzleName](dataset)
