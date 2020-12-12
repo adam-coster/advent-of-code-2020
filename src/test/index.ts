@@ -21,6 +21,7 @@ import day3, {TreeMap} from "../days/day03";
 import day4 from "../days/day04";
 import day5 from "../days/day05";
 import day6 from "../days/day06";
+import day7 from "../days/day07";
 
 const days = [
   day1,
@@ -29,6 +30,7 @@ const days = [
   day4,
   day5,
   day6,
+  day7,
 ];
 
 function loadSampleFile(day:number){
