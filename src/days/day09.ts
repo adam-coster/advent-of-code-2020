@@ -21,6 +21,22 @@ function pairwiseSumExists(numbers:number[],sum:number){
   return false;
 }
 
+function findContiguousMatchingSum(numbers:number[],sum:number){
+  for(let start = 0; start<numbers.length-1; start++){
+    for(let length = 2; length<numbers.length-start-1; length++){
+      const contig = numbers.slice(start,start+length);
+      const contigSum = cumulativeSum(contig);
+      if(contigSum>sum){
+        break;
+      }
+      if(sum == cumulativeSum(contig)){
+        return contig;
+      }
+    }
+  }
+  throw new Error("No contiguous match found");
+}
+
 function firstInvalidEntry(numbers:number[],preambleSize=25){
   for(let i=preambleSize; i<numbers.length; i++){
     const preambleStart = i-preambleSize;
@@ -37,9 +53,11 @@ function puzzle1(dataset:string,isSample=false){
   return firstInvalidEntry(data,isSample ? 5 : 25);
 }
 
-function puzzle2(dataset:string){
+function puzzle2(dataset:string,isSample=false){
   const data = parseDataset(dataset);
-  return -Infinity;
+  const invalidEntry = firstInvalidEntry(data,isSample ? 5 : 25);
+  const contig = findContiguousMatchingSum(data,invalidEntry);
+  return Math.min(...contig) + Math.max(...contig);
 }
 
 const day: Day = {
@@ -68,7 +86,7 @@ const day: Day = {
       576
     `,
     puzzle1: 127,
-    puzzle2: Infinity
+    puzzle2: 62
   },
   puzzle1,
   puzzle2,
