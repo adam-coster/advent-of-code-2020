@@ -9,6 +9,12 @@ export function splitOnLinebreak(string:string){
     .filter(x=>x);
 }
 
+export function splitOnEmptyLine(string:string){
+  return string
+    .split(/[\r\n]{2,}/gm)
+    .filter(entry=>entry.trim());
+}
+
 export function splitOnAllWhitespace(string:string){
   assert(typeof string == 'string',`${string} is not a string`);
   return string.split(/\s+/mg)

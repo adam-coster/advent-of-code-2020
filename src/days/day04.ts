@@ -2,6 +2,7 @@
 
 import {Day} from "../types/Day";
 import {undent} from "@bscotch/utility";
+import { splitOnEmptyLine } from "../lib/utility";
 
 const passportFields = ['byr','iyr','eyr','hgt','hcl','ecl','pid','cid'] as const;
 
@@ -12,9 +13,7 @@ type Passport = {
 }
 
 function passportsFromDataset (string:string){
-  return string
-    .split(/[\r\n]{2,}/gm)
-    .filter(entry=>entry.trim())
+  return splitOnEmptyLine(string)
     .map(entry=>{
       const pairs = entry.trim()
         .split(/\s+/gm)
