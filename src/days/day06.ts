@@ -1,28 +1,42 @@
 /** @see https://adventofcode.com/2020/day/6 */
 
 import { undent } from "@bscotch/utility";
-import { assert, splitOnLinebreak, countBy, cumulativeSum, splitOnEmptyLine } from "../lib/utility";
+import { cumulativeSum, splitOnEmptyLine, splitOnAllWhitespace } from "../lib/utility";
 import {Day} from "../types/Day";
 
 function getGroupAnswersFromData (string:string){
-  const groups = splitOnEmptyLine(string)
+  return splitOnEmptyLine(string)
     .map(group=>group.replace(/[^a-z]/gm,''));
-  return groups;
 }
 
-function groupUniqueAnswerCount (groupAnswers:string){
-  return new Set(groupAnswers.split('')).size;
+function groupUniqueAnswers (groupAnswers:string){
+  return [...new Set(groupAnswers.split(''))];
+}
+
+function getGroupUniversalAnswers (group:string){
+  const allAnswersInGroup = groupUniqueAnswers(getGroupAnswersFromData(group)[0]);
+  const people = splitOnAllWhitespace(group)
+    .map(person=>new Set(person.split('')));
+  const universalAnswers = allAnswersInGroup.filter(answer=>{
+    return people.every(person=>person.has(answer));
+  });
+  return universalAnswers;
+}
+
+function getGroupCommonAnswersFromData (string:string){
+  return splitOnEmptyLine(string)
+    .map(getGroupUniversalAnswers);
 }
 
 /** Tally the number of VALID passwords */
 function puzzle1(dataset:string){
   const groups = getGroupAnswersFromData(dataset);
-  return cumulativeSum(groups.map(groupUniqueAnswerCount));
+  return cumulativeSum(groups.map(group=>groupUniqueAnswers(group).length));
 }
 
 function puzzle2(dataset:string){
-  const data = getGroupAnswersFromData(dataset);
-  return -Infinity;
+  const groups = getGroupCommonAnswersFromData(dataset);
+  return cumulativeSum(groups.map(group=>group.length));
 }
 
 const day: Day = {
@@ -46,7 +60,7 @@ const day: Day = {
       b
     `,
     puzzle1: 11,
-    puzzle2: Infinity
+    puzzle2: 6
   },
   puzzle1,
   puzzle2,
