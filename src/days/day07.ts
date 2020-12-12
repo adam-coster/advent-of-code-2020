@@ -32,6 +32,18 @@ class Bag {
     }
     return false;
   }
+
+  /**
+   * Recursively tally the number of bags contained
+   * inside this one.
+   */
+  innerBagCount(){
+    let count = 0;
+    for(const [bag,containsCount] of this.innerBags){
+      count += containsCount + (containsCount * bag.innerBagCount());
+    }
+    return count;
+  }
 }
 
 class Bags {
@@ -76,8 +88,8 @@ function puzzle1(dataset:string){
 }
 
 function puzzle2(dataset:string){
-  const data = getBagsFromData(dataset);
-  return -Infinity;
+  const bags = getBagsFromData(dataset);
+  return bags.bags.get('shiny gold')?.innerBagCount() || 0;
 }
 
 const day: Day = {
@@ -95,7 +107,7 @@ const day: Day = {
       dotted black bags contain no other bags.
     `,
     puzzle1: 4,
-    puzzle2: Infinity
+    puzzle2: 32
   },
   puzzle1,
   puzzle2,
