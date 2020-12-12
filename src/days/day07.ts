@@ -1,7 +1,7 @@
 /** @see https://adventofcode.com/2020/day/7 */
 
 import { undent } from "@bscotch/utility";
-import { assert, splitOnLinebreak, countBy, cumulativeSum } from "../lib/utility";
+import { assert, splitOnLinebreak } from "../lib/utility";
 import {Day} from "../types/Day";
 
 class Bag {
@@ -49,6 +49,22 @@ class Bag {
 class Bags {
   public bags: Map<string,Bag> = new Map();
 
+  constructor(data:string){
+    splitOnLinebreak(data)
+      .forEach(line=>{
+        const [parentColor,childrenString] = line.split(/ bags? contain /);
+        assert(parentColor && childrenString,'split did not work');
+        const parentBag = this.createBagIfMissing(parentColor);
+        const childRegex = /(\d+) (([^ ]+) ([^ ]+)) bag/;
+        (childrenString.match(new RegExp(childRegex,'g')) || [])
+          .forEach(colorString=>{
+            const [,count,color] = colorString.match(childRegex) as [null,string,string];
+            assert(count && color, "child regex did not work");
+            parentBag.addBag(this.createBagIfMissing(color),Number(count));
+          });
+      });
+  }
+
   createBagIfMissing(color:string): Bag{
     if(!this.bags.get(color)){
       this.bags.set(color, new Bag(color));
@@ -63,32 +79,14 @@ class Bags {
   }
 }
 
-function getBagsFromData (string:string){
-  const bags = new Bags();
-  splitOnLinebreak(string)
-    .forEach(line=>{
-      const [parentColor,childrenString] = line.split(/ bags? contain /);
-      assert(parentColor && childrenString,'split did not work');
-      const parentBag = bags.createBagIfMissing(parentColor);
-      const childRegex = /(\d+) (([^ ]+) ([^ ]+)) bag/;
-      (childrenString.match(new RegExp(childRegex,'g')) || [])
-        .forEach(colorString=>{
-          const [,count,color] = colorString.match(childRegex) as [null,string,string];
-          assert(count && color, "child regex did not work");
-          parentBag.addBag(bags.createBagIfMissing(color),Number(count));
-        });
-    });
-  return bags;
-}
-
 /** Tally the number of VALID passwords */
 function puzzle1(dataset:string){
-  const bags = getBagsFromData(dataset);
+  const bags = new Bags(dataset);
   return bags.bagsContainingColor('shiny gold').length;
 }
 
 function puzzle2(dataset:string){
-  const bags = getBagsFromData(dataset);
+  const bags = new Bags(dataset);
   return bags.bags.get('shiny gold')?.innerBagCount() || 0;
 }
 

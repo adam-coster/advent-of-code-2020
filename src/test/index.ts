@@ -24,6 +24,7 @@ import day6 from "../days/day06";
 import day7 from "../days/day07";
 import day8 from "../days/day08";
 import day9 from "../days/day09";
+import day10 from "../days/day10";
 
 const days = [
   day1,
@@ -35,6 +36,7 @@ const days = [
   day7,
   day8,
   day9,
+  day10,
 ];
 
 function loadSampleFile(day:number){
